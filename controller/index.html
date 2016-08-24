@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Crittografia</title>
+<link rel="stylesheet" href="res/themes/css/jqtouch.css" title="jQTouch">
+<script src="res/src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="res/src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- Uncomment the following two lines (and comment out the previous two) to use jQuery instead of Zepto. -->
+<!-- <script src="../../src/lib/jquery-1.7.min.js" type="application/x-javascript" charset="utf-8"></script> -->
+<!-- <script src="../../src/jqtouch-jquery.min.js" type="application/x-javascript" charset="utf-8"></script> -->
+
+<script src="res/extensions/jqt.themeswitcher.min.js" type="application/x-javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+	var ws, stanza;
+	
+	var jQT = new $.jQTouch({
+		icon: 'jqtouch.png',
+		icon4: 'jqtouch4.png',
+		addGlossToIcon: false,
+		startupScreen: 'jqt_startup.png',
+		statusBar: 'black-translucent',
+		themeSelectionSelector: '#jqt #themes ul',
+		preloadImages: []
+	});
+	
+	function WSconnetti(st)
+	{
+		var ok = 1;
+		
+		try
+		{
+			ws = new WebSocket('ws://bobvann.noip.me:8090');
+			stanza = st;
+			// --- init dall'applicazione all'apertura del canale websocket ---
+			ws.addEventListener('open', function()
+			{ 
+				ws.send("c:" + stanza);
+				ws.send("m:"+ stanza + ":iPhoneConnesso");
+				}, false);
+
+			// --- ricezione messaggi dal websocket ---
+			ws.addEventListener('message', function(evt)
+			{
+				var msg = evt.data;
+				WSricevi(msg);
+			});
+		}
+		catch(e)
+		{
+		ok = 0;
+		}
+		
+		return ok;
+	}
+
+	  // --- invio messaggi al websocket ---
+	function WSinvia(msg) 
+	{
+		ws.send("m:"+ stanza + ":" + msg);
+	}
+
+	function WSricevi(msg)
+	{
+		var identificatore = msg.substr(0,1);
+		
+		if (identificatore == 'p')
+		{
+			if (location.hash!="#div2") location.href = '#div2';
+
+			var tipo = msg.substr(2,1);
+			var nome = msg.substr(4);
+			
+			cambiaTipo(tipo);
+			document.getElementById('titPagina').innerHTML = nome;
+		}
+		
+	}
+
+	function cambiaTipo(tipo)
+	{
+		document.getElementById('td-auxTit').innerHTML = '';
+		document.getElementById('td-sPiu').style.display = 'none';
+		document.getElementById('td-sMeno').style.display = 'none';
+		document.getElementById('td-sHome').style.display = 'none';
+		document.getElementById('td-vStart').style.display = 'none';
+		document.getElementById('td-vPausa').style.display = 'none';
+		document.getElementById('td-vStop').style.display = 'none';
+		
+		switch (tipo)
+		{
+			case 's':
+				document.getElementById('td-auxTit').innerHTML = 'Slide';
+				document.getElementById('td-sPiu').style.display = 'table-cell';
+				document.getElementById('td-sMeno').style.display = 'table-cell';
+				document.getElementById('td-sHome').style.display = 'table-cell';
+				break;
+			case 'v':
+				document.getElementById('td-auxTit').innerHTML = 'Video'
+				document.getElementById('td-vStart').style.display = 'table-cell';
+				document.getElementById('td-vPausa').style.display = 'table-cell';
+				document.getElementById('td-vStop').style.display = 'table-cell';
+				break;
+		
+		}
+	
+	}
+	
+	function azione(key)
+	{
+		/* key:
+			- pSu
+			- pGiu
+			- pHome
+			- sPiu
+			- sMeno
+			- sHome
+			- vStart
+			- vPausa
+			- vStop 
+		*/
+		var str = 'a-' + key;
+		WSinvia(str);
+	}
+	
+	function startPresentazione()
+	{
+	
+		location.href = '#div2';
+		azione('start');
+	}
+	
+	function connetti()
+	{
+		var c = WSconnetti(100);
+		
+		if (c)
+		{
+			alert('Connesso!');
+			document.getElementById('btnConnetti').style.display='none';
+			document.getElementById('btnStart').style.display='block';
+		}
+		else
+			alert('OPS! C\'è stato qualche errore!');
+	
+	}
+</script>
+<style type="text/css" media="screen">			
+	#jqt.fullscreen #home .info {
+		display: none;
+	}
+	div#jqt #about {
+		padding: 100px 10px 40px;
+		text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0;
+		color: #999;
+		font-size: 13px;
+		text-align: center;
+		background: #161618;
+	}
+	div#jqt #about p {
+		margin-bottom: 8px;
+	}
+	div#jqt #about a {
+		color: #fff;
+		font-weight: bold;
+		text-decoration: none;
+	}
+	
+	.bottone {
+		height: 110px;
+	}
+	
+	.icona {
+		width:100%;
+		height:100%;
+	
+	}
+	
+	.cella {
+		width: 50%;
+	}
+	
+	.titolo {
+		padding-top:8px;
+	}
+	
+	.aux {
+		display: none;
+	}
+</style>
+</head>
+<body>
+	<div id="jqt">
+		<div id="home" class="current">
+			<div class="toolbar">
+				<h1>Crittografia</h1>
+			</div>
+			<div class="scroll">
+				<ul class="rounded">
+					<li>
+						<a id="btnConnetti" href="javascript:connetti()" class="grayButton">Connetti</a>
+						<a id="btnStart" style="display:none" href="javascript:startPresentazione()" class="grayButton">Avvia Presentazione</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="div2">
+			<div class="toolbar">
+				<h1 id="titPagina">Crittografia</h1>
+			</div>
+			<div class="scroll">	
+				<table width="100%">
+					<tr>
+						<td class="cella titolo" align="center">Pagine</td>
+						<td id="td-auxTit" class="cella titolo" align="center"></td>
+					</tr>
+					<tr>
+						<td class="cella">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('pSu');">
+										<img class="icona"src="res/img/fsu.png" />
+									</a>
+								</li>
+							</ul>
+						
+						</td>
+						<td id="td-sPiu" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('sPiu');">
+										<img class="icona"src="res/img/piu.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+						<td id="td-vStart" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('vStart');">
+										<img class="icona"src="res/img/play.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="cella">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('pGiu');">
+										<img class="icona" src="res/img/fgiu.png" />
+									</a>
+								</li>
+							</ul>
+						
+						</td>
+						<td id="td-sMeno" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('sMeno');">
+										<img class="icona"src="res/img/meno.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+						<td id="td-vPausa" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('vPausa');">
+										<img class="icona"src="res/img/pausa.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="cella">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('pHome');">
+										<img class="icona"src="res/img/casetta.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+						<td id="td-sHome" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('sHome');">
+										<img class="icona"src="res/img/casetta.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+						<td id="td-vStop" class="cella aux">
+							<ul class="rounded">
+								<li class="bottone">
+									<a class="bottone" href="javascript:azione('vStop');">
+										<img class="icona"src="res/img/stop.png" />
+									</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crittografia</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="author" content="Roberto Vannucci" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="fs/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fs/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" charset="utf-8">
+	var ws;
+	
+	var pagina = 'premessa.html';
+	function WSconnetti(st)
+	{
+		var ok = 1;
+		
+		try
+		{
+			ws = new WebSocket('ws://bobvann.noip.me:8090');
+			stanza = st;
+			// --- init dall'applicazione all'apertura del canale websocket ---
+			ws.addEventListener('open', function()
+			{ 
+				ws.send("c:" + stanza);
+				}, false);
+
+			// --- ricezione messaggi dal websocket ---
+			ws.addEventListener('message', function(evt)
+			{
+				var msg = evt.data;
+				WSricevi(msg);
+			});
+		}
+		catch(e)
+		{
+		ok = 0;
+		}
+		
+		return ok;
+	}
+
+	  // --- invio messaggi al websocket ---
+	function WSinvia(msg) 
+	{
+		ws.send("m:"+ stanza + ":" + msg);
+	}
+
+	function WSricevi(msg)
+	{
+		if (msg=="iPhoneConnesso")
+			iPhoneOK();
+		else
+			if (msg=="a-start")
+				location.href=pagina;
+	}
+	
+	function connetti()
+	{
+		var c = WSconnetti(100);
+		
+		if (c)
+		{
+			document.getElementById('cOK').style.display='block';
+			document.getElementById('cNOK').style.display='none';
+		}
+		else
+			alert('OPS! C\'è stato qualche errore!');
+	
+	}
+	
+	function iPhoneOK()
+	{
+		document.getElementById('iNOK').style.display = 'none';
+		document.getElementById('iOK').style.display = 'block';
+	}
+</script>
+</head>
+<body onload="connetti()" onclick="location.href=pagina;" onkeypress="location.href='introduzione.html'">
+<div id="page" class="container" style="height:100%">
+	<div id="main" style="width:100%; padding:2em 0px 0px 0px;">
+		<p id="cNOK" align="right" style="margin-right:100px; color:red;">Non connesso al WS</p>
+		<p id="cOK" align="right" style="margin-right:100px; color:green; display:none;">Connesso al WS</p>
+		<p id="iNOK"" align="right" style="margin-right:100px; color:red;">iPhone non connesso</p>
+		<p id="iOK" align="right" style="margin-right:100px; color:green; display:none;">iPhone connesso</p>
+		<div id="banner">
+			<img src="images/pic01.jpg" alt="" class="image-full" style="width:40%" />
+		</div>
+		<div id="welcome">
+			<div class="title">
+				<h2>Algoritmi e tecniche crittografiche</h2>
+				<br />
+				<span class="byline" >Informatica e Crittografia</span>
+			</div>
+		</div>
+		<div id="spaziobianco" style="height:100px;"></div>
+	</div>
+</div>
+</body>
+</html>

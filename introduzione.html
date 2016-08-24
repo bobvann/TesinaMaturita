@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crittografia</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="author" content="Roberto Vannucci" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="fs/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fs/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="app.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+/* p(pagespec), TIPO -> n:normale, s:slide, v:video */
+var pagespec = 'p-n-Introduzione';
+var nextpage = 'storia.html';
+var prevpage = 'premessa.html';
+
+/* sempre 100, invia il pagespec */
+var c = WSconnetti(100, pagespec);
+</script>
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="index.html">La Crittografia Moderna</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="premessa.html" accesskey="1" title="">Premessa</a></li>
+				<li class="current_page_item"><a href="#" accesskey="2" title="">Introduzione</a></li>
+				<li><a href="storia.html" accesskey="3" title="">Breve Storia</a></li>
+				<li><a href="chiave.html" accesskey="4" title="">Chiave Pubblica E Privata</a></li>
+				<li><a href="rsa.html" accesskey="5" title="">Algoritmo RSA</a></li>
+				<li><a href="hashing.html" accesskey="6" title="">Funzioni di Hashing</a></li>
+				<li><a href="ssltls.html" accesskey="7" title="">SSL/TLS</a></li>
+				<li><a href="bibliografia.html" accesskey="8" title="">Bibliografia</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="welcome">
+			<div class="title">
+				<h2>Introduzione</h2>
+				<span class="byline">why and how to encrypt data</span>
+			</div>
+			<p>
+				The need for secrecy is a question which has ever existed</br>
+				The reasons can be very different: <b>militar</b> information must not be discovered by the enemies, <b>industrial</b> secrets, <b>financial</b> transactions, <b>personal</b> information.
+			</p><p>
+				The diffusion of computers and of <b>Internet</b> has increased the amount of information which need protection, because the interactions between people have increased.
+			</p><p>
+				To satisfy this need it is necessary to use some <b>cryptographic techniques</b>, (word which with we mean a <b>science</b> that studies methods to make a message readable only to designed people).
+			</p><p>
+				During the time many techniques to encrypt data have been realized: from the <b>classical crypthography</b> to the <b>modern cryptography</b>,
+				which relies on the generous computing power of computers.
+			</p><p>
+				In order to work, the cryptography needs an <b>algorythm</b> and a <b>key</b>, which must be known by both the speakers.<br/>
+				Here comes the problem of <b>key exchange</b>.
+			</p>
+			<div id="spaziobianco" style="height:500px;"></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crittografia</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="author" content="Roberto Vannucci" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="fs/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fs/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="app.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+/* p(pagespec), TIPO -> n:normale, s:slide, v:video */
+var pagespec = 'p-s-RSA';
+var nextpage = 'hashing.html';
+var prevpage = 'chiave.html';
+
+var slide = 1;
+var maxSlide = 10;
+var imgFolderPrefix = 'img-rsa';
+
+/* sempre 100, invia il pagespec */
+var c = WSconnetti(100, pagespec);
+
+function slidePiu()
+{
+	if (slide<maxSlide)
+	{
+		$("#cf2 #imgSlide" +slide).toggleClass("transparent");
+		slide++;
+	}
+	else
+	{
+		slide=1;
+		for (var i=1;i<=maxSlide;i++)
+			$("#cf2 #imgSlide" +i).toggleClass("transparent");
+	}
+}
+
+function slideMeno()
+{
+	if (slide>1)
+	{
+		slide--;
+		$("#cf2 #imgSlide" +slide).toggleClass("transparent");
+	}
+}
+
+function slideHome()
+{
+	slide=1;
+	for (var i=1;i<=maxSlide;i++)
+		$("#cf2 #imgSlide" +i).removeClass("transparent");
+}
+
+$(document).ready(function() 
+{
+	for (var i=1;i<=maxSlide;i++)
+		document.getElementById('imgSlide'+i).src = imgFolderPrefix + '/slide'+i+'.jpg';
+		
+	$("#imgSlide1").click(function() 
+	{
+		if (slide<maxSlide)
+		{
+			$("#cf2 #imgSlide" +slide).toggleClass("transparent");
+			slide++;
+		}
+		else
+		{
+			slide=1;
+			for (var i=1;i<=maxSlide;i++)
+				$("#cf2 #imgSlide" +i).toggleClass("transparent");
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="index.html">La Crittografia Moderna</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="premessa.html" accesskey="1" title="">Premessa</a></li>
+				<li><a href="introduzione.html" accesskey="2" title="">Introduzione</a></li>
+				<li><a href="storia.html" accesskey="3" title="">Breve Storia</a></li>
+				<li><a href="chiave.html" accesskey="4" title="">Chiave Pubblica E Privata</a></li>
+				<li class="current_page_item"><a href="#" accesskey="5" title="">Algoritmo RSA</a></li>
+				<li><a href="hashing.html" accesskey="6" title="">Funzioni di Hashing</a></li>
+				<li><a href="ssltls.html" accesskey="7" title="">SSL/TLS</a></li>
+				<li><a href="bibliografia.html" accesskey="8" title="">Bibliografia</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="welcome">
+			<div class="title">
+				<h2>l'algoritmo RSA</h2>
+				<span class="byline">sicurezza affidata ai numeri primi</span>
+			</div>
+			<div id="cf2" class="shadow">
+				<script type="text/javascript">
+				for (var i=maxSlide;i>0;i--)
+				{
+					document.write("<img class='imgSlide' id='imgSlide"+i+"' />");
+				}
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

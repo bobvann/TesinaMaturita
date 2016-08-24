@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crittografia</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="author" content="Roberto Vannucci" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="fs/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fs/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="app.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+/* p(pagespec), TIPO -> n:normale, s:slide, v:video */
+var pagespec = 'p-s-Storia';
+var nextpage = 'chiave.html';
+var prevpage = 'introduzione.html';
+
+var slide = 2;
+var maxSlide = 5;
+
+/* sempre 100, invia il pagespec */
+var c = WSconnetti(100, pagespec);
+
+function slidePiu()
+{
+	if (slide<=maxSlide)
+	{
+		$("#li-" +slide).toggleClass("storiaLiHidden");
+		slide++;
+	}
+	else
+	{
+		slide=2;
+		for (var i=2;i<=maxSlide;i++)
+			$("#li-" +i).toggleClass("storiaLiHidden");
+	}
+}
+
+function slideMeno()
+{
+	if (slide>2)
+	{
+		slide--;
+		$("#li-" +slide).toggleClass("storiaLiHidden");
+	}
+}
+
+function slideHome()
+{
+	slide=1;
+	for (var i=2;i<=maxSlide;i++)
+		$("#li-" +i).toggleClass("storiaLiHidden");
+}
+
+function bodyonload()
+{
+	document.getElementById('li-1').style.display = "list-item";
+
+}
+</script>
+</head>
+<body onload="bodyonload();">
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="index.html">La Crittografia Moderna</a></h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="premessa.html" accesskey="1" title="">Premessa</a></li>
+				<li><a href="introduzione.html" accesskey="2" title="">Introduzione</a></li>
+				<li class="current_page_item"><a href="#" accesskey="3" title="">Breve Storia</a></li>
+				<li><a href="chiave.html" accesskey="4" title="">Chiave Pubblica E Privata</a></li>
+				<li><a href="rsa.html" accesskey="5" title="">Algoritmo RSA</a></li>
+				<li><a href="hashing.html" accesskey="6" title="">Funzioni di Hashing</a></li>
+				<li><a href="ssltls.html" accesskey="7" title="">SSL/TLS</a></li>
+				<li><a href="bibliografia.html" accesskey="8" title="">Bibliografia</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="welcome">
+			<div class="title">
+				<h2>Breve Storia</h2>
+				<span class="byline">dall'antichità ai giorni nostri</span>
+			</div>
+			<ul class="style1" onclick="slidePiu();">
+				<li class="first" id="li-1">
+					<p class="date"><a href="#"><b>1900 </b>a.C.</a></p>
+					<h3>Knumotete II</h3>
+					<p>Prime tracce di crittografia</p>
+				</li>
+				<li id="li-2" class="storiaLi storiaLiHidden">
+					<p class="date"><a href="#"><b>100 </b>a.C.</a></p>
+					<h3>giulio cesare</h3>
+					<p>Cifrario a sostituzione monoalfabetico</p>
+				</li>
+				<li id="li-3" class="storiaLi storiaLiHidden">
+					<p class="date"><a href="#"><b>1600</b></a></p>
+					<h3>blaise de vigenère</h3>
+					<p>Cifrario a sostituzione polialfabetico</p>
+				</li>
+				<li id="li-4" class="storiaLi storiaLiHidden">
+					<p class="date"><a href="#"><b>1940</b></a></p>
+					<h3>enigma</h3>
+					<p>Comunicazioni crittografate fra gli ufficiali nazisti</p>
+				</li>
+				<li id="li-5" class="storiaLi storiaLiHidden">
+					<p class="date"><a href="#"><b>1970</b></a></p>
+					<h3>DES, RSA</h3>
+					<p>I computer al servizio della crittografia, e viceversa</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+</html>
